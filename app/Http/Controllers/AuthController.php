@@ -21,16 +21,20 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
     public function login(Request $request){
-        $validator = Validator::make($request->all(),[
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
-        ]); //:(hihi
+        // $validator = Validator::make($request->all(),[
+        //     'email' => 'required|email',
+        //     'password' => 'required|string|min:6',
+        // ]); //:(hihi
 
-        if($validator->fails()){
-            return response()->json($validator->error(), 422);
-        }
-
-        if(!$token = auth()->attempt($validator->validated())){
+        // if($validator->fails()){
+        //     return response()->json($validator->error(), 422);
+        // }
+        // $user = [
+        //     'email' => 'phuongne@gmail.com',
+        //     'password' => 'Phuongne123'
+        // ];
+        $user = $request->all();
+        if(!$token = auth()->attempt($user)){
             return response()->json(['error'=>'Unauthorized'], 401);
         }
 
@@ -43,11 +47,12 @@ class AuthController extends Controller
      *@return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request){
-        //sai chính tả=)) sr a
+        
         $validator = Validator::make($request->all(),[
             'name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|confirmed|min:6',
+            'id_type' => 'required'
         ]);
 
         if($validator->fails()){
@@ -96,10 +101,28 @@ class AuthController extends Controller
      */
     protected function createNewToken($token){
         return response()->json([
+            'status' => 200,
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
             'user' => auth()->user()
         ]);
+    }
+
+    public function store(Request $request){
+        $randomCode = rand(1000,9999);
+        $task = new Task();
+        $task->name = $request->name;
+        $task->save();
+
+        $users = User::all();
+        $message = [
+            'type' => 'Create task',
+            'task' => $task->name,
+            'content' => $randomCode,
+        ];
+        SendEmail::dispatch($message, $users)->delay(now()->addMinute(1));
+
+        return redirect()->back();
     }
 }
