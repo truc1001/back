@@ -46,4 +46,58 @@ class CheckChangePassword extends Controller
         }
     }
 
+    public function checkCode(Request $request) {
+        $code = $request->code;
+        $checkCode = DB::table('password_resets')->where('token', $code)->first();
+        try {
+            //code...
+            if($checkCode) {
+                $res = [
+                    'status' => 201,
+                    'email' => $checkCode->email,
+                    'des' => 'Submit code success'
+                ];
+                return response()->json($res, 201);
+            }else {
+                $res = [
+                    'status' => 401,
+                    'des' => 'Error code'
+                ];
+                return response()->json($res, 401);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            $res = [
+                'status' => 500,
+                'des' => 'Cannot connection',
+                'info_error' => $th
+            ];
+            return response()->json($res, 500);
+        }
+    }
+
+    public function changePassword(Request $request) {
+        $password = $request->password;
+        $password_confirm = $request->password_confirm;
+        if($password == $password_confirm) {
+            DB::table('users')->where('email', $request->email)->update([
+                'password' => bcrypt($password)
+            ]);
+
+            DB::table('password_resets')->where('email', $request->email)->delete();
+
+            $res = [
+                'status' => 201,
+                'des' => 'Change password success'
+            ];
+            return response()->json($res, 201);
+        }else {
+            $res = [
+                'status' => 401,
+                'des' => '2 casi hong giong nhau'
+            ];
+            return response()->json($res, 401);
+        }
+    }
+
 }

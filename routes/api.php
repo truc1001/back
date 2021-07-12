@@ -26,4 +26,5 @@ Route::group([
 });
 
 Route::post('/forget-password', [CheckChangePassword::class, 'forgetPassword']);
-
+Route::post('/check-code', [CheckChangePassword::class, 'checkCode']);
+Route::post('/change-password', [CheckChangePassword::class, 'changePassword']);
