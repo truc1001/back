@@ -21,12 +21,11 @@ class CheckChangePassword extends Controller
             //send mail
             $randomCode = rand(1000,9999);
 
-            //nhớ sửa cái link
+
             $details = [
                 'title' => 'Mail from Green Space Solution',
                 'body' => 'Enter code: ',
-                'code' => $randomCode,
-                'link' => 'em tự nhập vào đây nhé'
+                'code' => $randomCode
             ];
             \Mail::to($email)->send(new \App\Mail\SendMailChangePassword($details));
 
@@ -94,7 +93,7 @@ class CheckChangePassword extends Controller
         }else {
             $res = [
                 'status' => 401,
-                'des' => '2 casi hong giong nhau'
+                'des' => 'two passwords are not the same'
             ];
             return response()->json($res, 401);
         }
