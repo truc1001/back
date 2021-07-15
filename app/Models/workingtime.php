@@ -21,6 +21,7 @@ class workingtime extends Model
         'check_out',
         'work',
         'note',
-        'id_user',      
+        'id_user',  
+        'id_project',   
     ];
 }

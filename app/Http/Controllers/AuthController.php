@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Validator;
-/*NOTE*/
-//Sửa migrate mà k chịu fresh
-//Sai chính tả string =)
-// sai chính tả username
+
 
 class AuthController extends Controller
 {
+   
     /**
      *Create a new AuthController instance.
      *
@@ -24,15 +22,7 @@ class AuthController extends Controller
         // $validator = Validator::make($request->all(),[
         //     'email' => 'required|email',
         //     'password' => 'required|string|min:6',
-        // ]); //:(hihi
-
-        // if($validator->fails()){
-        //     return response()->json($validator->error(), 422);
-        // }
-        // $user = [
-        //     'email' => 'phuongne@gmail.com',
-        //     'password' => 'Phuongne123'
-        // ];
+        // ]); 
         $user = $request->all();
         if(!$token = auth()->attempt($user)){
             return response()->json(['error'=>'Unauthorized'], 401);
@@ -47,7 +37,7 @@ class AuthController extends Controller
      *@return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request){
-        //sai chính tả=)) sr a
+    
         $validator = Validator::make($request->all(),[
             'name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
@@ -59,7 +49,7 @@ class AuthController extends Controller
             return response()->json($validator->errors()->toJson(),400);
         }
 
-        //truyền vào form body theo các biến như trên
+        
 
         $user = User::create(array_merge(
             $validator->validated(),
