@@ -22,7 +22,15 @@ class AuthController extends Controller
         // $validator = Validator::make($request->all(),[
         //     'email' => 'required|email',
         //     'password' => 'required|string|min:6',
-        // ]);
+        // ]); //:(hihi
+
+        // if($validator->fails()){
+        //     return response()->json($validator->error(), 422);
+        // }
+        // $user = [
+        //     'email' => 'phuongne@gmail.com',
+        //     'password' => 'Phuongne123'
+        // ];
         $user = $request->all();
         if(!$token = auth()->attempt($user)){
             return response()->json(['error'=>'Unauthorized'], 401);

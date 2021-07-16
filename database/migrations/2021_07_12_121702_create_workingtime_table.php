@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableReportsTable extends Migration
+class CreateWorkingtimeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,15 @@ class CreateTableReportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('reports', function (Blueprint $table) {
-            $table->bigIncrements('id_report');
-            $table->integer('rate_of_process');
-            $table->boolean('status');
-            $table->string('reason');
-            $table->string('advantage');
-            $table->string('disadvantage');
-            $table->string('suggestion');
-            $table->string('plan_for_next_day');
+        Schema::create('workingtime', function (Blueprint $table) {
+            $table->id();
+            $table->dateTime('check_in' , $precision = 0);
+            $table->datetime('check_out')->nullable();
+            $table->string('work');
+            $table->string('note')->nullable();
+            $table->timestamps();
             $table->bigInteger('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->timestamps();
         });
     }
 
@@ -35,6 +32,6 @@ class CreateTableReportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reports');
+        Schema::dropIfExists('workingtime');
     }
 }

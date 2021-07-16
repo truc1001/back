@@ -1,4 +1,5 @@
 <?php
+// Le_Van_Son
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,7 +17,7 @@ class CreateOvertimeTable extends Migration
         Schema::create('overtime', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_user')->unsigned(); // nguoi xin don lam
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_user')->references('id')->on('users');
             $table->string('reason')->nullable(); // ly do lam
             $table->integer('number');    // so gio lam
             $table->boolean('status')->default(0);  // trang thai

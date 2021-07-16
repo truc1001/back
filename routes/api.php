@@ -37,7 +37,8 @@ Route::group([
 
 Route::group([
 ], function ($router){
-    //OT api-----son.le
+    // route OT
+    // Route::post('ExportExcel', [OvertimeController::class, 'excel']);
     Route::get('destroyOT/{id}', [OvertimeController::class, 'destroyOT']);
     Route::post('updateOT/{id}', [OvertimeController::class, 'updateOT']);
     Route::post('approveOT/{id}', [OvertimeController::class, 'approveOT']);
@@ -54,6 +55,8 @@ Route::group([
     Route::get('editWorkingtime/{id}', [WorkingtimeController::class, 'editWorkingtime']);
     //day_off api-----truc-ho
     Route::get('showWorkingtime', [WorkingtimeController::class, 'showWorkingtime']);
+    Route::post('getReport', [OvertimeController::class, 'getReport']);
+    // route day_off
     Route::get('/cancel-dayoff/{id}', [DayoffController::class, 'getCancel']);
     Route::post('/approved-dayoff/{id}', [DayoffController::class, 'ApprovedDayOff']);
     Route::post('/dayoff-update/{id}', [DayoffController::class, 'updateDayOff']);
@@ -116,4 +119,9 @@ Route::group([
         Route::get('showFinishedProject', [ProjectController::class, 'showFinishedProject']);
         Route::get('destroyProject/{id}', [ProjectController::class, 'destroyProject']);
         Route::post('finishProject/{id}', [ProjectController::class, 'finishProject']);
-    });
+});
+    // Route::post('/report', [DayoffController::class, 'getReport']);
+
+
+
+
