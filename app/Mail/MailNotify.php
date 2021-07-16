@@ -29,7 +29,7 @@ class MailNotify extends Mailable
      */
     public function build()
     {
-        return $this->from('phuongne@gmail.com')
+        return $this->from('luphuowng@gmail.com')
            ->subject('Notification email - Change your password!');
     }
 }

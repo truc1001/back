@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWorkingtimeTable extends Migration
+class CreateProjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateWorkingtimeTable extends Migration
      */
     public function up()
     {
-        Schema::create('workingtime', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->datetime('check_in');
-            $table->datetime('check_out')->nullable();
-            $table->string('work', 500);
-            $table->string('note', 1000)->nullable();
+            $table->string('project_name');
+            $table->string('detail')->nullable();
+            $table->boolean('status')->default(0);
+            $table->date('receipt_date');
+            $table->date('finish_data')->nullable();
             $table->timestamps();
             $table->bigInteger('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
@@ -32,6 +33,6 @@ class CreateWorkingtimeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('workingtime');
+        Schema::dropIfExists('projects');
     }
 }
