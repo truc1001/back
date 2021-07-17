@@ -24,6 +24,8 @@ class CreateTableReportsTable extends Migration
             $table->string('plan_for_next_day');
             $table->bigInteger('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('id_project')->unsigned();
+            $table->foreign('id_project')->references('id')->on('projects')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

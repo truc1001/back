@@ -76,6 +76,7 @@ class CheckChangePassword extends Controller
     }
 
     public function changePassword(Request $request) {
+        
         $password = $request->password;
         $password_confirm = $request->password_confirm;
         if($password == $password_confirm) {

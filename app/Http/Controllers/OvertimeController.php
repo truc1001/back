@@ -121,15 +121,15 @@ class OvertimeController extends Controller
 
         $data = User::select('id','name')->orderBy('id', 'asc')->get();
 
-        $data0 = User::leftjoin('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereBetween('approved_time', [$req->DayBegin, $req->DayEnd])->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(overtime.number) AS sumT')]);
+        $data0 = User::leftjoin('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(overtime.number) AS sumT')]);
 
-        $data1 = User::leftjoin('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereBetween('approved_time', [$req->DayBegin, $req->DayEnd])->where(DB::raw('DAYOFWEEK(ngayDK)'),'7')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(number) AS sumT7')]);
+        $data1 = User::leftjoin('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where(DB::raw('DAYOFWEEK(ngayDK)'),'7')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(number) AS sumT7')]);
 
-        $data2 = User::leftjoin('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereBetween('approved_time', [$req->DayBegin, $req->DayEnd])->where(DB::raw('DAYOFWEEK(ngayDK)'),'1')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(number) AS sumCN')]);
+        $data2 = User::leftjoin('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where(DB::raw('DAYOFWEEK(ngayDK)'),'1')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(number) AS sumCN')]);
 
-        $workingtime =  User::leftjoin('workingtime','workingtime.id_user', '=' ,'users.id')->whereBetween('check_out', [$req->DayBegin, $req->DayEnd])->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(HOUR(workingtime.check_out - workingtime.check_in)) as TongGio')]);
+        $workingtime = User::leftjoin('workingtime','workingtime.id_user', '=' ,'users.id')->whereDate('check_out','>=', $req->DayBegin)->whereDate('check_out', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(HOUR(workingtime.check_out - workingtime.check_in)) as TongGio')]);
 
-        $dayOff = User::leftJoin('day_off', 'day_off.user_id', '=', 'users.id')->where('status','1')->whereBetween('approved_at', [$req->DayBegin, $req->DayEnd])->groupBy('users.id')->orderBy('users.id','asc')->get(['users.id', DB::raw('SUM(day_off.num_off) as sum_off')]);
+        $dayOff = User::leftJoin('day_off', 'day_off.user_id', '=', 'users.id')->where('status','1')->whereDate('start_off','>=', $req->DayBegin)->whereDate('start_off', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id','asc')->get(['users.id', DB::raw('SUM(day_off.num_off) as sum_off')]);
 
         foreach ($data as $key => $v) {
             $v->sumT = 0;
