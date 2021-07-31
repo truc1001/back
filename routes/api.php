@@ -9,6 +9,7 @@ use App\Http\Controllers\DayoffController;
 use App\Http\Controllers\ReportProjectController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CheckChangePassword;
+use App\Http\Controllers\SkillOfStaffController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -119,8 +120,25 @@ Route::group([
         Route::get('showFinishedProject', [ProjectController::class, 'showFinishedProject']);
         Route::get('destroyProject/{id}', [ProjectController::class, 'destroyProject']);
         Route::post('finishProject/{id}', [ProjectController::class, 'finishProject']);
+
+
+        // Skill of Staff phase3 task1 --son.le-truc.ho--
+        Route::get('showDetail/{id}', [SkillOfStaffController::class, 'showDetail']);
+        Route::get('getDelete/{id}', [SkillOfStaffController::class, 'getDelete']);
+        Route::get('livesearch', [SkillOfStaffController::class, 'searchSkill']);
+        Route::get('showSkill', [SkillOfStaffController::class, 'show']);
+        Route::get('createSkill', [SkillOfStaffController::class, 'create']);
+        Route::post('storeSkill', [SkillOfStaffController::class, 'store']);
+        Route::post('updateSkill/{id}', [SkillOfStaffController::class, 'update']);
+        Route::get('editSkill/{id}', [SkillOfStaffController::class, 'edit']);
+        // Route::get('livesearch', [SkillOfStaffController::class, 'searchSkill']);
+        // Route::get('showSkill', [SkillOfStaffController::class, 'show']);
+        // Route::get('createSkill', [SkillOfStaffController::class, 'create']);
+        // Route::post('storeSkill', [SkillOfStaffController::class, 'store']);
+
 });
-    // Route::post('/report', [DayoffController::class, 'getReport']);
+
+
 
 
 

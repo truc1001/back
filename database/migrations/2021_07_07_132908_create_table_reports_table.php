@@ -15,12 +15,14 @@ class CreateTableReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->bigIncrements('id_report');
+            $table->string('name_project');
+            $table->integer('time_for_project');
             $table->integer('rate_of_process');
-            $table->boolean('status');
-            $table->string('reason');
-            $table->string('advantage');
-            $table->string('disadvantage');
-            $table->string('suggestion');
+            $table->string('status');
+            $table->string('reason')->nullable();
+            $table->string('advantage')->nullable();
+            $table->string('disadvantage')->nullable();
+            $table->string('suggestion')->nullable();
             $table->string('plan_for_next_day');
             $table->bigInteger('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
